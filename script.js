@@ -37,12 +37,13 @@ const stopBtn = document.querySelector('[data-action="stop"]');
 const resetBtn = document.querySelector('[data-action="reset"]');
 const secondTimerButton = document.querySelector(".second-timer-btn");
 
-const onTimerPasedZero = () => {
+const onTimerPasedZero = (event) => {
   startBtn.style.backgroundColor = "green";
   stopBtn.style.backgroundColor = "red";
   resetBtn.style.backgroundColor = "yellow";
   clearInterval(timerId);
   timerIsActive = false;
+  output.textContent = "00:00:00";
 };
 
 const onStartBtnClick = (event) => {
@@ -67,11 +68,11 @@ const onStartBtnClick = (event) => {
 };
 
 const onSecondBtnClick = (event) => {
-  startSeconds = 30;
+  startSeconds = 1800;
   clearInterval(timerId);
-  output.textContent = "00:00:30";
+  output.textContent = "00:30:00";
   timerId = setInterval(() => {
-    startSeconds -= 1;
+    startSeconds -= 0.22;
     startBtn.style.display = "none";
     stopBtn.style.display = "none";
     secondTimerButton.style.display = "none";
@@ -79,7 +80,7 @@ const onSecondBtnClick = (event) => {
     if (startSeconds === 10) {
       resetBtn.style.backgroundColor = "pink";
     }
-    if (startSeconds === 0) {
+    if (startSeconds < 0) {
       onTimerPasedZero();
       startBtn.style.display = "inline-block";
       stopBtn.style.display = "inline-block";
@@ -87,7 +88,7 @@ const onSecondBtnClick = (event) => {
     //    console.log("start")
     const { hours, minutes, secs } = getTimeFromSeconds(startSeconds);
     output.textContent = `${hours}:${minutes}:${secs}`;
-  }, 1000);
+  }, 1);
   timerIsActive = true;
 };
 
